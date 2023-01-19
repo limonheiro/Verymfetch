@@ -37,7 +37,7 @@ cat <<-EOF
 ${c8}------------------------
 OS      : ${PRETTY_NAME}
 AMBIENT : ${ambient}
-KERNEL  : ${uname -r}
+KERNEL  : $(uname -r)
 SHELL   : ${SHELL##*/}
 CPU     : ${cpu}
 UPTIME  : ${uptime}
