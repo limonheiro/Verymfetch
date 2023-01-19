@@ -1,62 +1,58 @@
 #! /bin/sh
-# Disable warnings for unused variables
 # shellcheck disable=2034
 
-# In addition to these variables you might find the following interesting
-# EDITOR default editor
-# TERM current terminal
+###############################################################
+#AUTHOR
+# Nicolas T.
+#
+#LICENSE
+# MIT License
+#
+# Tiny System Information tool writen in POSIX shell
+# Changelog(1.1)
+#	- set new 
+#	- display bar color
+#	- set white color in EOF
+################################################################
 
-# Get user from USER variable or id command if var is empty
-user="${USER-$(id -u -n)}"
 
-# Get host from uname
-host="$(uname -n)"
+#========================= Variables
+#
+export version='1.1'
+# For speed, support UNICODE OFF
+export LC='C'; export LANG='C'
 
-# Get os from /etc/os-release file
-. /etc/os-release # load lib
-os="$(echo $PRETTY_NAME)"
+#get memory value
+#memory="$(free -m|grep "Mem"|awk '{print $3 "MB/" $2 "MB"}')"
 
-# Get kernel from uname
-kernel="$(uname -r)"
+#get wm using .xinitrc
+ambient="$(grep "exec" "$HOME"/.xinitrc | cut -d " " -f "2")"
+#get cpu using /proc/cpuinfo
+cpu="$(grep -m 1 "model name" /proc/cpuinfo | cut -d " " -f "5")"
+#pretty uptime
+uptime="$(uptime -p|cut -d ',' --output-delimiter=' ' -f '1-' | awk '{print $2 $3 ":" $4 "hr:" $6 "m"}')"
+#uname, oblivious
+uname=$(uname -r)
 
-# Get shell from SHELL variable
-shell="${SHELL##*/}"
+#get colors value
+end=$'\e[0m'; c8=$'\e[1;38m'
+#red=$'\e[1;31m'; green=$'\e[1;32m'
+#c3=$'\e[1;33m';  c4=$'\e[1;34m'
+#c5=$'\e[1;35m';  c6=$'\e[1;36m'
+#c7=$'\e[1;37m'; c8=$'\e[1;38m'
 
-# Get wm from xinitrc
-wm=$(basename $(grep -E '^\s+exec\s+/' .xinitrc | sed 's/^\s*exec\s//g'))
+COLORBAR=$'\e[1;31;41m   \e[0m\e[8;30;42m  \e[0m\e[8;30;43m   \e[0m\e[8;30;44m   \e[0m\e[8;30;45m    \e[0m\e[8;30;46m    \e[0m\e[8;30;47m    \e[0m'
 
-# Colors and palette method stolen from dylanaraps pftech
-# https://github.com/dylanaraps/pfetch
-c0='[0m'
-c1='[31m'; c2='[32m'
-c3='[33m'; c4='[34m'
-c5='[35m'; c6='[36m'
-c7='[37m'; c8='[38m'
+. /etc/os-release # Load Info
 
-palette="[7m$c1 $c1 $c2 $c2 $c3 $c3 $c4 $c4 $c5 $c5 $c6 $c6 [m"
-
-# Define artwork
-# Default artwork is Snufkin by Shanaka Dias, taken from
-# https://www.asciiart.eu/books/moomintroll
-ARTR1="${c5}     .-.         "
-ARTR2="${c5}  __/   (        "
-ARTR3="${c5}, '-.____\\       "
-ARTR4="${c5} u=='/  \\        "
-ARTR5="${c5}    /_/  \\       "
-ARTR6="${c5}  .-''   |"
-ARTR7="${c5} (  ${c4}____${c5}/${c4}_____   "
-
-# Output
 cat <<-EOF
-
-
-    ${ARTR1}${user}${c0}@${c5}${host}
-    ${ARTR2}${c4}os${c0}      ${os}
-    ${ARTR3}${c4}kernel${c0}  ${kernel}
-    ${ARTR4}${c4}shell${c0}   ${shell}
-    ${ARTR5}${c4}wm${c0}      ${wm}
-    ${ARTR6}
-    ${ARTR7}${palette}
-
-
+${c8}------------------------
+OS      : ${PRETTY_NAME}
+AMBIENT : ${ambient}
+KERNEL  : ${uname}
+SHELL   : ${SHELL##*/}
+CPU     : ${cpu}
+UPTIME  : ${uptime}
+̣̣------------------------
+${end}${COLORBAR}
 EOF
