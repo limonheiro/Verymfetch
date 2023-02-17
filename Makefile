@@ -2,10 +2,10 @@ PREFIX?=/usr
 BIN?=$(PREFIX)/bin
 
 default:
-	@printf "Usage:\n\tmake install\tinstall mfetch\n\tmake uninstall\tuninstall mfetch\n"
+        @printf "Usage:\n\tmake install\tinstall verymfetch\n\tmake uninstall\tuninstall verymfetch\n"
 
 install:
-	install -Dm755 mfetch $(BIN)/mfetch
+        install -Dm755 verymfetch $(BIN)/verymfetch
 
 uninstall:
-	rm -f $(BIN)/mfetch
+        rm -f $(BIN)/verymfetch
