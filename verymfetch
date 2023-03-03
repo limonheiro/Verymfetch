@@ -44,7 +44,7 @@ printf "${c8}-----------------------  \n\
 OS      : ${PRETTY_NAME}    \n\
 AMBIENT : ${ambient}   \n\
 KERNEL  : ${uname}   \n\
-SHELL   : ${SHELL##*/}  \n\ 
+SHELL   : ${SHELL##*/}  \n\
 CPU     : ${cpu}   \n\
 UPTIME  : ${uptime}   \n\
 -----------------------  \n\
