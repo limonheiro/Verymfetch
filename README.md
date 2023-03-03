@@ -5,6 +5,6 @@
 verymfetch is a tiny fetch script using less than 20 sloc!
 ```sh
 $ grep -v '^$\|^#' verymfetch | wc -l
-19
+17
 ```
 Assuming you use a `~/.xinitrc` file to start your window manager everything should work out of the box.
