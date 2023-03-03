@@ -15,6 +15,7 @@
 #	- set white color in EOF
 #	- uptime update
 # - fix uptime regex
+# - change cat to printf
 ################################################################
 
 #========================= Variables
@@ -33,20 +34,18 @@ uptime="$(uptime -p|cut -d "," -f1- --output-delimiter=" "|tr -d "[:space:]" |se
 uname=$(uname -r)
 
 #get colors value
-end=$'\e[0m'; c8=$'\e[1;38m'
+end='\033[0m'; c8='\033[1;38m'
 
-COLORBAR=$'\e[1;31;41m   \e[0m\e[8;30;42m  \e[0m\e[8;30;43m   \e[0m\e[8;30;44m   \e[0m\e[8;30;45m    \e[0m\e[8;30;46m    \e[0m\e[8;30;47m    \e[0m'
+COLORBAR='\033[1;31;41m  \033[0m\033[8;30;42m  \033[0m\033[8;30;43m   \033[0m\033[8;30;44m   \033[0m\033[8;30;45m    \033[0m\033[8;30;46m    \033[0m\033[8;30;47m    \033[0m'
 
 . /etc/os-release # Load Info
 
-cat <<-EOF
-${c8}------------------------
-OS      : ${PRETTY_NAME}
-AMBIENT : ${ambient}
-KERNEL  : ${uname}
-SHELL   : ${SHELL##*/}
-CPU     : ${cpu}
-UPTIME  : ${uptime}
-̣̣------------------------
-${end}${COLORBAR}
-EOF
+printf "${c8}-----------------------  \n\
+OS      : ${PRETTY_NAME}    \n\
+AMBIENT : ${ambient}   \n\
+KERNEL  : ${uname}   \n\
+SHELL   : ${SHELL##*/}  \n\ 
+CPU     : ${cpu}   \n\
+UPTIME  : ${uptime}   \n\
+-----------------------  \n\
+${end}${COLORBAR}\n"
